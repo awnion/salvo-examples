@@ -1,0 +1,6 @@
+services:
+  caddy:
+    image: caddy
+    ports:
+      - "127.0.0.1:443:443"
+      - "127.0.0.1:443:443/udp"

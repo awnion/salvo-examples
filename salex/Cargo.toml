@@ -14,7 +14,18 @@ rbatis = { version = "4.4", features = ["debug_mode"] }
 rbdc-sqlite = { version = "4.4", features = [] }
 rbs = { version = "4.4", features = [] }
 rust-embed = "8.0.0"
-salvo = { version = "0.68", features = ["anyhow", "logging", "cors", "oapi", "jwt-auth", "rustls", "catch-panic", "cookie", "serve-static", "test"] }
+salvo = { version = "0.68", features = [
+  "anyhow",
+  "logging",
+  "cors",
+  "oapi",
+  "jwt-auth",
+  "rustls",
+  "catch-panic",
+  "cookie",
+  "serve-static",
+  "test",
+] }
 serde = "1.0.196"
 serde_yaml = "0.9.31"
 thiserror = "1.0.57"
