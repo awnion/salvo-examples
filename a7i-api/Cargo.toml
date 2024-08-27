@@ -5,6 +5,7 @@ edition.workspace = true
 
 [dependencies]
 anyhow.workspace = true
+rcgen.workspace = true
 salvo.workspace = true
 tokio.workspace = true
 tracing.workspace = true

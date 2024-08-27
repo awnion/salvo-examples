@@ -1,3 +1,6 @@
+use std::process::exit;
+
+use rcgen::CertifiedKey;
 use salvo::conn::rustls::Keycert;
 use salvo::conn::rustls::RustlsConfig;
 use salvo::prelude::*;
@@ -16,11 +19,20 @@ pub async fn server(addr: &str) -> () {
         .hoop(Logger::new())
         .hoop(ForceHttps::new());
 
-    let rustls_config = RustlsConfig::new(
-        Keycert::new()
-            .cert(include_bytes!("../certs/cert.pem").as_ref())
-            .key(include_bytes!("../certs/key.pem").as_ref()),
-    );
+    // generate self-signed keys
+    let CertifiedKey { cert, key_pair } = rcgen::generate_simple_self_signed([
+        //
+        "localhost".into(),
+        "::1".into(),
+        "127.0.0.1".into(),
+    ])
+    .expect("generate self-signed certs");
+
+    // tracing::warn!("cert: {}", key.cert.pem());
+    // tracing::warn!("key: {}", key.key_pair.serialize_pem());
+
+    let keycert = Keycert::new().cert(cert.pem()).key(key_pair.serialize_pem());
+    let rustls_config = RustlsConfig::new(keycert);
 
     let acceptor = TcpListener::new("127.0.0.1:8081")
         .rustls(rustls_config.clone())
