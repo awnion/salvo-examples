@@ -18,17 +18,18 @@ rand = { version = "0.8.5", features = [] }
 rust-embed = "8.0.0"
 salvo = { version = "0.68", features = [
   "anyhow",
-  "logging",
-  "cors",
-  "oapi",
-  "jwt-auth",
-  "rustls",
   "catch-panic",
   "cookie",
+  "cors",
+  "force-https",
+  "http2",
+  "jwt-auth",
+  "logging",
+  "oapi",
+  "quinn",
+  "rustls",
   "serve-static",
   "test",
-  "http2",
-  "quinn",
 ] }
 serde = "1.0.196"
 serde_yaml = "0.9.31"
@@ -36,5 +37,5 @@ thiserror = "1.0.57"
 time = "0.3.28"
 tokio = { version = "1", features = ["full"] }
 tracing = "0.1"
-uuid = { version = "1.4.1", features = ["v4", "fast-rng", "macro-diagnostics"] }
 tracing-subscriber = "*"
+uuid = { version = "1.4.1", features = ["fast-rng", "macro-diagnostics", "v4"] }
