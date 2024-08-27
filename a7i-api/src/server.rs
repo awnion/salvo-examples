@@ -37,7 +37,7 @@ pub async fn server(addr: &str) -> () {
     let acceptor = TcpListener::new("127.0.0.1:8081")
         .rustls(rustls_config.clone())
         // .join(TcpListener::new("127.0.0.1:8081"))
-        .join(QuinnListener::new(rustls_config, "127.0.0.1:8081"))
+        .join(QuinnListener::new(rustls_config.clone().build_quinn_config().expect("QUIC quinn config"), "127.0.0.1:8081"))
         .bind()
         .await;
     Server::new(acceptor).serve(service).await;
