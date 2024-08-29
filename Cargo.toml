@@ -19,6 +19,7 @@ rcgen = "0.13"
 rust-embed = "8.0.0"
 salvo = { version = "0.68", features = [
   "anyhow",
+  # "server-handle",
   "catch-panic",
   "cookie",
   "cors",

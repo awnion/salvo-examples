@@ -1,8 +1,15 @@
+use tokio::task::JoinHandle;
+
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt().init();
 
-    let _ = a7i_api::server::server("0.0.0.0:80").await;
+    let h: JoinHandle<anyhow::Result<()>> = tokio::spawn(async {
+        let _ = a7i_api::server::server().await.await;
+        Ok(())
+    });
+
+    assert!(h.await.is_ok());
 }
 
 #[cfg(test)]

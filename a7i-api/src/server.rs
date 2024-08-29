@@ -1,3 +1,4 @@
+use std::future::Future;
 use std::process::exit;
 
 use rcgen::CertifiedKey;
@@ -14,7 +15,7 @@ pub fn router() -> Router {
     Router::new().get(hello).post(hello)
 }
 
-pub async fn server(addr: &str) -> () {
+pub async fn server() -> impl Future<Output = ()> {
     let service = Service::new(router()) //
         .hoop(Logger::new())
         .hoop(ForceHttps::new());
@@ -34,11 +35,11 @@ pub async fn server(addr: &str) -> () {
     let keycert = Keycert::new().cert(cert.pem()).key(key_pair.serialize_pem());
     let rustls_config = RustlsConfig::new(keycert);
 
-    let acceptor = TcpListener::new("127.0.0.1:8081")
+    let acceptor = TcpListener::new("0.0.0.0:8600")
         .rustls(rustls_config.clone())
         // .join(TcpListener::new("127.0.0.1:8081"))
-        .join(QuinnListener::new(rustls_config.clone().build_quinn_config().expect("QUIC quinn config"), "127.0.0.1:8081"))
+        // .join(QuinnListener::new(rustls_config.clone().build_quinn_config().expect("QUIC quinn config"), "127.0.0.1:8081"))
         .bind()
         .await;
-    Server::new(acceptor).serve(service).await;
+    Server::new(acceptor).serve(service)
 }
